@@ -127,19 +127,28 @@ function GatewayCard({
         : "text-[21px] md:text-[31px]";
   const typographyShift =
     gateway.treatment === "type-led" ? "md:grid md:grid-cols-[1fr_auto] md:items-end" : "";
+  const staggerOffset =
+    [
+      "translate-y-0 md:translate-y-0",
+      "translate-y-4 md:translate-y-10",
+      "-translate-y-2 md:translate-y-4",
+      "translate-y-5 md:-translate-y-2",
+      "-translate-y-1 md:translate-y-8",
+      "translate-y-4 md:translate-y-1",
+    ][index % 6] ?? "";
 
   return (
     <motion.article
-      className="group min-w-0"
+      className={`group min-w-0 ${staggerOffset}`}
       variants={fadeUp(0.08 + index * 0.075)}
       whileHover={
         reduceMotion
           ? undefined
           : {
-              y: -10,
+              y: -6,
             }
       }
-      transition={{ duration: 0.55, ease: posterEase }}
+      transition={{ duration: 0.6, ease: posterEase }}
     >
       <Link
         href={`/${locale}/gateways/${gateway.slug}`}
@@ -154,12 +163,12 @@ function GatewayCard({
                   reduceMotion
                     ? undefined
                     : {
-                        scale: 1.065,
-                        x: gateway.treatment === "process" ? 7 : 0,
-                        y: gateway.treatment === "close" ? -5 : 0,
+                        scale: 1.035,
+                        x: gateway.treatment === "process" ? 4 : 0,
+                        y: gateway.treatment === "close" ? -3 : 0,
                       }
                 }
-                transition={{ duration: 0.7, ease: posterEase }}
+                transition={{ duration: 0.6, ease: posterEase }}
               >
                 <Image
                   src={gateway.image}
@@ -190,17 +199,17 @@ function GatewayCard({
             </p>
 
             <h3
-              className={`mt-1.5 max-w-[94%] font-normal leading-[1.05] text-[#141310] transition-transform duration-700 group-hover:-translate-y-1 ${
+              className={`mt-1.5 max-w-[94%] font-normal leading-[1.05] text-[#141310] transition-transform duration-[600ms] group-hover:-translate-y-1 ${
                 isArabic ? "font-[var(--font-arabic-serif)]" : "font-[var(--font-cormorant)]"
               } ${titleSize}`}
             >
               {title}
             </h3>
             <p
-              className={`mt-1.5 max-w-[92%] text-[#141310]/58 transition-opacity duration-700 group-hover:text-[#141310]/72 ${
+              className={`mt-0.5 max-w-[94%] overflow-hidden text-[#141310]/76 transition-opacity duration-700 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] group-hover:text-[#141310]/82 md:mt-1.5 md:max-w-[92%] md:overflow-visible md:text-[#141310]/58 md:[display:block] md:[-webkit-line-clamp:unset] md:group-hover:text-[#141310]/72 ${
                 isArabic
-                  ? "font-[var(--font-arabic-serif)] text-[9px] leading-[1.45] md:text-[11px]"
-                  : "font-[var(--font-inter)] text-[9px] leading-[1.45] md:text-[10px]"
+                  ? "font-[var(--font-arabic-serif)] text-[10.5px] font-medium leading-[1.35] md:text-[11px] md:font-normal md:leading-[1.45]"
+                  : "font-[var(--font-inter)] text-[10px] font-medium leading-[1.35] md:text-[10px] md:font-normal md:leading-[1.45]"
               }`}
             >
               {subtitle}
@@ -208,7 +217,7 @@ function GatewayCard({
           </div>
 
           <div className="flex items-end justify-end">
-            <span className="shrink-0 font-[var(--font-inter)] text-[17px] leading-none text-[#8E6F40] transition-transform duration-700 group-hover:-translate-y-1 group-hover:translate-x-1">
+            <span className="shrink-0 font-[var(--font-inter)] text-[17px] leading-none text-[#8E6F40] transition-transform duration-[600ms] group-hover:-translate-y-1 group-hover:translate-x-1">
               ↗
             </span>
           </div>
@@ -222,7 +231,7 @@ function fadeUp(delay: number): Variants {
   return {
     hidden: {
       opacity: 0,
-      y: 30,
+      y: 24,
     },
     visible: {
       opacity: 1,

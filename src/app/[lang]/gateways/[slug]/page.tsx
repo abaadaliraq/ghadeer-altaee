@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import TopBar from "@/components/layout/TopBar";
+import AboutGhadeerGateway from "@/components/sections/AboutGhadeerGateway";
+import GatewayEditorialPage from "@/components/sections/GatewayEditorialPage";
+import MemoryBaghdadPage from "@/components/sections/MemoryBaghdadPage";
 import {
   gateways,
   getGateway,
@@ -15,6 +18,13 @@ type GatewayPageProps = {
     slug: string;
   }>;
 };
+
+const editorialGatewaySlugs = [
+  "intuitive-artist",
+  "visual-language",
+  "from-place-to-miniature",
+  "craft-journey",
+];
 
 export function generateStaticParams() {
   return gateways.flatMap((gateway) =>
@@ -33,6 +43,33 @@ export default async function GatewayPage({ params }: GatewayPageProps) {
 
   if (!gateway) {
     notFound();
+  }
+
+  if (gateway.slug === "about-ghadeer") {
+    return (
+      <>
+        <TopBar lang={locale} linkBase={`/${locale}`} tone="dark" />
+        <AboutGhadeerGateway lang={locale} />
+      </>
+    );
+  }
+
+  if (gateway.slug === "memory-of-baghdad") {
+    return (
+      <>
+        <TopBar lang={locale} linkBase={`/${locale}`} />
+        <MemoryBaghdadPage lang={locale} />
+      </>
+    );
+  }
+
+  if (editorialGatewaySlugs.includes(gateway.slug)) {
+    return (
+      <>
+        <TopBar lang={locale} linkBase={`/${locale}`} />
+        <GatewayEditorialPage lang={locale} slug={gateway.slug} />
+      </>
+    );
   }
 
   const title = localized(gateway.title, locale);

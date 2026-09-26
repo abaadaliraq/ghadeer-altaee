@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import InitialLoader from "@/components/layout/InitialLoader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        <InitialLoader />
+        {children}
+      </body>
     </html>
   );
 }

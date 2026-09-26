@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowDown, ArrowUpLeft } from "lucide-react";
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "framer-motion";
 
 type HeroProps = {
   lang: "ar" | "en";
@@ -7,6 +11,9 @@ type HeroProps = {
 
 export default function Hero({ lang }: HeroProps) {
   const isArabic = lang === "ar";
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  const imageY = useTransform(scrollYProgress, [0, 0.35], [0, reduceMotion ? 0 : 22]);
 
   return (
     <section
@@ -15,18 +22,26 @@ export default function Hero({ lang }: HeroProps) {
       className="relative h-[92vh] min-h-[680px] w-full overflow-hidden bg-[#080808]"
     >
       {/* IMAGE */}
-      <Image
-        src="/images/artist/ghadeer.jpg"
-        alt={
-          isArabic
-            ? "الفنان التشكيلي غدير الطائي"
-            : "Iraqi visual artist Ghadeer Al-Taee"
-        }
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
+      <motion.div
+        className="absolute inset-0"
+        style={{ y: imageY }}
+        initial={reduceMotion ? false : { opacity: 0, scale: 1.04 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Image
+          src="/images/artist/ghadeer.jpg"
+          alt={
+            isArabic
+              ? "الفنان التشكيلي غدير الطائي"
+              : "Iraqi visual artist Ghadeer Al-Taee"
+          }
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </motion.div>
 
       {/* CINEMATIC OVERLAYS */}
 
@@ -54,84 +69,62 @@ export default function Hero({ lang }: HeroProps) {
       {/* HERO CONTENT */}
       <div
         className={`
-          absolute bottom-0 z-20
+          absolute bottom-[12%] z-20
           w-full
-          px-6 pb-12
-          md:px-12 md:pb-16
-          lg:px-16 lg:pb-20
+          px-6
+          md:px-12
+          lg:px-16
         `}
       >
-        <div className="max-w-[760px]">
-
-          {/* eyebrow */}
-          <div className="mb-5 flex items-center gap-4">
-            <span className="h-px w-10 bg-white/55" />
-
-            <span
-              className="
-                text-[10px]
-                font-medium
-                uppercase
-                tracking-[0.32em]
-                text-white/65
-              "
-            >
-              {isArabic
-                ? "فنان تشكيلي عراقي"
-                : "IRAQI VISUAL ARTIST"}
-            </span>
-          </div>
-
+        <motion.div
+          className={`max-w-[590px] ${isArabic ? "mr-[7vw] text-right md:mr-[9vw] lg:mr-[11vw]" : "ml-[7vw] text-left md:ml-[9vw] lg:ml-[11vw]"}`}
+          initial={reduceMotion ? false : "hidden"}
+          animate="visible"
+          variants={heroStagger}
+        >
           {/* TITLE */}
-          <h1
+          <motion.h1
             className={`
               text-white
               ${
                 isArabic
-                  ? "font-[var(--font-arabic-serif)] text-[54px] leading-[1.2] md:text-[76px] lg:text-[92px]"
-                  : "font-[var(--font-cormorant)] text-[64px] leading-[0.86] tracking-[-0.035em] md:text-[92px] lg:text-[116px]"
+                  ? "font-[var(--font-arabic-serif)] text-[clamp(44px,7vw,86px)] font-normal leading-[1.12] md:whitespace-nowrap"
+                  : "font-[var(--font-cormorant)] text-[clamp(56px,8vw,108px)] leading-[0.9] tracking-[-0.035em] md:whitespace-nowrap"
               }
             `}
+            variants={heroItem(0)}
           >
-            {isArabic ? (
-              <>
-                غدير
-                <span className="block font-normal text-white/85">
-                  الطائي
-                </span>
-              </>
-            ) : (
-              <>
-                Ghadeer
-                <span className="block italic text-white/85">
-                  Al-Taee
-                </span>
-              </>
-            )}
-          </h1>
+            {isArabic ? "غدير الطائي" : "Ghadeer Al-Taee"}
+          </motion.h1>
 
           {/* DESCRIPTION */}
-          <p
+          <motion.p
             className={`
-              mt-6 max-w-[570px]
-              text-white/70
+              mt-5 max-w-[560px]
+              text-white/78
               ${
                 isArabic
-                  ? "font-[var(--font-arabic-serif)] text-[15px] leading-[2]"
-                  : "font-[var(--font-inter)] text-[13px] leading-[1.9]"
+                  ? "font-[var(--font-arabic-serif)] text-[17px] leading-[1.9] md:text-[18px]"
+                  : "font-[var(--font-inter)] text-[14px] leading-[1.9] md:text-[15px]"
               }
             `}
+            variants={heroItem(0.1)}
           >
             {isArabic
-              ? "تجربة فنية تستكشف الذاكرة العراقية والعمارة والتفاصيل المتوارثة، وتحولها إلى أعمال تحمل أثر المكان والإنسان."
+              ? "تجربة فنية تستكشف ذاكرة بغداد وعمارتها وتفاصيلها المتوارثة، وتعيد صياغة أثر المكان في أعمال تُبنى يدوياً بدقة وصبر."
               : "An artistic practice exploring Iraqi memory, architecture and inherited details — transforming place and history into contemporary visual works."}
-          </p>
+          </motion.p>
 
           {/* BUTTONS */}
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <motion.div
+            className={`mt-6 flex flex-wrap items-center gap-3 ${
+              isArabic ? "justify-end" : "justify-start"
+            }`}
+            variants={heroItem(0.18)}
+          >
 
-            <a
-              href="#works"
+            <Link
+              href={`/${lang}#works`}
               className="
                 group
                 inline-flex
@@ -161,10 +154,10 @@ export default function Hero({ lang }: HeroProps) {
                   ${!isArabic ? "rotate-90" : ""}
                 `}
               />
-            </a>
+            </Link>
 
-            <a
-              href="#about"
+            <Link
+              href={`/${lang}/gateways/about-ghadeer`}
               className="
                 inline-flex
                 h-12
@@ -185,38 +178,13 @@ export default function Hero({ lang }: HeroProps) {
               "
             >
               {isArabic ? "عن الفنان" : "ABOUT THE ARTIST"}
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* WORK INFO */}
-      <div
-        className={`
-          absolute
-          bottom-16
-          z-20
-          hidden
-          text-white/60
-          xl:block
-          ${isArabic ? "left-16 text-left" : "right-16 text-right"}
-        `}
-      >
-        <p className="font-[var(--font-inter)] text-[9px] uppercase tracking-[0.25em]">
-          Featured Artwork
-        </p>
-
-        <p className="mt-2 font-[var(--font-cormorant)] text-[19px] italic text-white/85">
-          Selected Work
-        </p>
-
-        <p className="mt-1 text-[10px] tracking-[0.12em] text-white/45">
-          Ghadeer Al-Taee
-        </p>
+            </Link>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* SCROLL */}
-      <a
+      <motion.a
         href="#works"
         aria-label="Scroll to works"
         className="
@@ -233,13 +201,43 @@ export default function Hero({ lang }: HeroProps) {
           transition-colors
           hover:text-white
         "
+        initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.72, delay: 0.56, ease: [0.22, 1, 0.36, 1] }}
       >
         <span className="text-[8px] uppercase tracking-[0.28em]">
           Scroll
         </span>
 
         <ArrowDown size={14} />
-      </a>
+      </motion.a>
     </section>
   );
+}
+
+const heroStagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+function heroItem(delay: number): Variants {
+  return {
+    hidden: {
+      opacity: 0,
+      y: 24,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.82,
+        delay,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
 }

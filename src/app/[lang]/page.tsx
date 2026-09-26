@@ -1,6 +1,7 @@
 import TopBar from "@/components/layout/TopBar";
 import Hero from "@/components/sections/Hero";
 import ArtistIntro from "@/components/sections/ArtistIntro";
+import ArtistNumbers from "@/components/sections/ArtistNumbers";
 import Contact from "@/components/sections/Contact";
 
 type PageProps = {
@@ -25,6 +26,7 @@ export default async function HomePage({
 
         <Hero lang={currentLang} />
          <ArtistIntro lang={currentLang} />
+         <ArtistNumbers lang={currentLang} />
            <Contact lang={currentLang} />
 
 
