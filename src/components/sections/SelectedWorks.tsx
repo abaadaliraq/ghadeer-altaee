@@ -1,94 +1,76 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUpLeft } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 type SelectedWorksProps = {
   lang: "ar" | "en";
 };
 
-type Artwork = {
-  image: string;
-  arTitle: string;
-  enTitle: string;
+type LocalizedText = {
+  ar: string;
+  en: string;
 };
 
-type CollectionData = {
+type FeaturedWork = {
   number: string;
-  arTitle: string;
-  enTitle: string;
-  arDescription: string;
-  enDescription: string;
-  arLinkLabel: string;
-  enLinkLabel: string;
-  works: Artwork[];
+  title: LocalizedText;
+  medium: LocalizedText;
+  image: string;
+  detailImage?: string;
+  imagePosition: string;
+  detailPosition?: string;
 };
 
-const collectionOne: Artwork[] = [
-  {
-    image: "/images/works/collection-01/work-01.jpg",
-    arTitle: "العمل 01",
-    enTitle: "Work 01",
-  },
-  {
-    image: "/images/works/collection-01/work-02.jpg",
-    arTitle: "العمل 02",
-    enTitle: "Work 02",
-  },
-  {
-    image: "/images/works/collection-01/work-03.jpg",
-    arTitle: "العمل 03",
-    enTitle: "Work 03",
-  },
-];
-
-const collectionTwo: Artwork[] = [
-  {
-    image: "/images/works/collection-02/work-04.jpg",
-    arTitle: "العمل 04",
-    enTitle: "Work 04",
-  },
-  {
-    image: "/images/works/collection-02/work-05.jpg",
-    arTitle: "العمل 05",
-    enTitle: "Work 05",
-  },
-  {
-    image: "/images/works/collection-02/work-06.jpg",
-    arTitle: "العمل 06",
-    enTitle: "Work 06",
-  },
-];
-
-const collections: CollectionData[] = [
+const featuredWorks: FeaturedWork[] = [
   {
     number: "01",
-    arTitle: "مختارات من أعمال غدير الطائي",
-    enTitle: "Selected Works",
-    arDescription:
-      "مختارات من أعمال غدير الطائي، تستكشف تفاصيل المكان والعمارة والذاكرة البصرية من خلال معالجة تشكيلية دقيقة تحمل أثر البيئة العراقية.",
-    enDescription:
-      "A selection of works exploring place, architecture and visual memory, through a detailed artistic language shaped by the Iraqi environment.",
-    arLinkLabel: "المزيد من الأعمال",
-    enLinkLabel: "MORE FROM THE COLLECTION",
-    works: collectionOne,
+    title: {
+      ar: "حارة اليهود",
+      en: "Jewish Quarter",
+    },
+    medium: {
+      ar: "مجسم فني ثلاثي الأبعاد",
+      en: "Three-dimensional art object",
+    },
+    image: "/images/works/collection-01/work-02.jpg",
+    detailImage: "/images/works/collection-01/work-01.jpg",
+    imagePosition: "50% 42%",
+    detailPosition: "58% 42%",
   },
   {
     number: "02",
-    arTitle: "مختارات من أعمال غدير الطائي",
-    enTitle: "Selected Works",
-    arDescription:
-      "مختارات من أعمال غدير الطائي، تستكشف تفاصيل المكان والعمارة والذاكرة البصرية من خلال معالجة تشكيلية دقيقة تحمل أثر البيئة العراقية.",
-    enDescription:
-      "A selection of works exploring place, architecture and visual memory, through a detailed artistic language shaped by the Iraqi environment.",
-    arLinkLabel: "المزيد من الأعمال",
-    enLinkLabel: "MORE FROM THE COLLECTION",
-    works: collectionTwo,
+    title: {
+      ar: "شناشيل بغداد",
+      en: "Shanasheel Baghdad",
+    },
+    medium: {
+      ar: "مجسم فني ثلاثي الأبعاد",
+      en: "Three-dimensional art object",
+    },
+    image: "/images/works/collection-02/work-04.jpg",
+    detailImage: "/images/works/collection-02/work-05.jpg",
+    imagePosition: "48% 42%",
+    detailPosition: "52% 40%",
   },
 ];
 
-const revealViewport = { once: true, margin: "-80px" };
+const sectionIntro = {
+  label: {
+    ar: "مشاهد مختارة",
+    en: "Selected Scenes",
+  },
+  title: {
+    ar: "مشاهد من ذاكرة بغداد",
+    en: "Scenes from Baghdad Memory",
+  },
+  description: {
+    ar: "عملان يعيدان قراءة تفاصيل المكان والذاكرة البغدادية.",
+    en: "Two works reread the details of place and Baghdadi memory.",
+  },
+};
+
+const revealViewport = { once: true, margin: "-100px" };
 const galleryEase = [0.22, 1, 0.36, 1] as const;
 
 export default function SelectedWorks({ lang }: SelectedWorksProps) {
@@ -99,223 +81,201 @@ export default function SelectedWorks({ lang }: SelectedWorksProps) {
     <section
       id="works"
       dir={isArabic ? "rtl" : "ltr"}
-      className="w-full bg-[#F4F1EA] text-[#24211d]"
+      className="w-full overflow-hidden bg-[#141310] text-[#E8E1D5]"
     >
-      <div className="mx-auto w-full max-w-[1500px] px-3 py-0 sm:px-4 md:px-8 lg:px-12 xl:px-16">
-        {collections.map((collection, index) => (
-          <Collection
-            key={`${collection.number}-${index}`}
-            collection={collection}
-            isArabic={isArabic}
-            reduceMotion={reduceMotion}
-            isFirst={index === 0}
-          />
-        ))}
+      <div className="mx-auto w-full max-w-[1540px] px-5 py-16 sm:px-6 md:px-9 md:py-20 lg:px-14 xl:px-16">
+        <BaghdadMemory isArabic={isArabic} reduceMotion={reduceMotion} />
       </div>
     </section>
   );
 }
 
-function Collection({
-  collection,
+function BaghdadMemory({
   isArabic,
   reduceMotion,
-  isFirst,
 }: {
-  collection: CollectionData;
   isArabic: boolean;
   reduceMotion: boolean | null;
-  isFirst: boolean;
 }) {
   return (
-    <motion.div
-      className={`${isFirst ? "pt-14 md:pt-20 lg:pt-22" : "pt-20 md:pt-24 lg:pt-28"} pb-0`}
+    <div>
+      <motion.div
+        className="mb-12 max-w-[620px] md:mb-16"
+        initial={reduceMotion ? false : "hidden"}
+        whileInView="visible"
+        viewport={revealViewport}
+      >
+        <EditorialLabel
+          number="01"
+          label={text(sectionIntro.label, isArabic)}
+          variants={fadeUp(0)}
+        />
+        <motion.h2
+          className={`mt-5 font-normal leading-[1.08] text-[#F3EBDD] ${
+            isArabic
+              ? "font-[var(--font-arabic-serif)] text-[36px] md:text-[54px] lg:text-[64px]"
+              : "font-[var(--font-cormorant)] text-[42px] md:text-[62px] lg:text-[72px]"
+          }`}
+          variants={fadeUp(0.12)}
+        >
+          {text(sectionIntro.title, isArabic)}
+        </motion.h2>
+        <motion.p
+          className={`mt-5 text-[#E8E1D5]/56 ${
+            isArabic
+              ? "font-[var(--font-arabic-serif)] text-[14px] leading-[1.9]"
+              : "font-[var(--font-inter)] text-[12px] leading-[1.8] tracking-[0.02em]"
+          }`}
+          variants={fadeUp(0.22)}
+        >
+          {text(sectionIntro.description, isArabic)}
+        </motion.p>
+      </motion.div>
+
+      <div className="space-y-24 md:space-y-32 lg:space-y-40">
+        {featuredWorks.map((work, index) => (
+          <FeaturedWorkSpread
+            key={work.number}
+            work={work}
+            isArabic={isArabic}
+            isReversed={index === 1}
+            reduceMotion={reduceMotion}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FeaturedWorkSpread({
+  work,
+  isArabic,
+  isReversed,
+  reduceMotion,
+}: {
+  work: FeaturedWork;
+  isArabic: boolean;
+  isReversed: boolean;
+  reduceMotion: boolean | null;
+}) {
+  return (
+    <motion.article
+      className={`grid items-end gap-7 md:grid-cols-[minmax(220px,0.3fr)_minmax(0,0.7fr)] md:gap-10 lg:gap-14 ${
+        isReversed ? "md:grid-flow-col-dense" : ""
+      }`}
       initial={reduceMotion ? false : "hidden"}
       whileInView="visible"
       viewport={revealViewport}
     >
-      <SectionHeading collection={collection} isArabic={isArabic} />
-      <ArtworkGrid
-        works={collection.works}
-        isArabic={isArabic}
-        reduceMotion={reduceMotion}
-      />
-      <CollectionFooter
-        isArabic={isArabic}
-        label={isArabic ? collection.arLinkLabel : collection.enLinkLabel}
-      />
-    </motion.div>
-  );
-}
-
-function SectionHeading({
-  collection,
-  isArabic,
-}: {
-  collection: CollectionData;
-  isArabic: boolean;
-}) {
-  return (
-    <div className="mx-auto mb-8 flex max-w-[880px] flex-col items-center text-center md:mb-9">
       <motion.div
-        className="mb-4 flex items-center justify-center gap-3 font-[var(--font-inter)] text-[8px] font-medium uppercase tracking-[0.2em] text-black/45 md:text-[9px]"
-        variants={fadeUp(0)}
-      >
-        <span>{collection.number}</span>
-        <span className="h-px w-7 bg-black/25 md:w-9" />
-        <span>{isArabic ? "أعمال مختارة" : "SELECTED WORKS"}</span>
-      </motion.div>
-
-      <motion.h2
-        className={`max-w-[820px] font-normal leading-[1.08] text-[#211f1b] ${
-          isArabic
-            ? "font-[var(--font-arabic-serif)] text-[27px] md:text-[42px] lg:text-[46px]"
-            : "font-[var(--font-cormorant)] text-[31px] md:text-[50px] lg:text-[56px]"
-        }`}
+        className={`max-w-[360px] ${isReversed ? "md:col-start-2 md:justify-self-end" : ""}`}
         variants={fadeUp(0.08)}
       >
-        {isArabic ? collection.arTitle : collection.enTitle}
-      </motion.h2>
+        <p className="font-[var(--font-inter)] text-[10px] uppercase tracking-[0.3em] text-[#E8E1D5]/42">
+          {work.number}
+        </p>
+        <h3
+          className={`mt-4 font-normal leading-[1.1] text-[#F3EBDD] ${
+            isArabic
+              ? "font-[var(--font-arabic-serif)] text-[31px] md:text-[42px]"
+              : "font-[var(--font-cormorant)] text-[36px] md:text-[50px]"
+          }`}
+        >
+          {text(work.title, isArabic)}
+        </h3>
+        <p
+          className={`mt-4 text-[#E8E1D5]/55 ${
+            isArabic
+              ? "font-[var(--font-arabic-serif)] text-[13px]"
+              : "font-[var(--font-inter)] text-[11px] uppercase tracking-[0.18em]"
+          }`}
+        >
+          {text(work.medium, isArabic)}
+        </p>
+        <div className="mt-7 h-px w-28 bg-[#E8E1D5]/22" />
+      </motion.div>
 
-      <motion.p
-        className={`mt-4 max-w-[660px] text-balance text-black/58 ${
-          isArabic
-            ? "font-[var(--font-arabic-serif)] text-[12px] leading-[1.9] md:text-[15px]"
-            : "font-[var(--font-inter)] text-[11px] leading-[1.75] md:text-[15px]"
-        }`}
+      <motion.div
+        className={`relative min-w-0 ${isReversed ? "md:col-start-1" : ""}`}
         variants={fadeUp(0.18)}
       >
-        {isArabic ? collection.arDescription : collection.enDescription}
-      </motion.p>
-    </div>
-  );
-}
-
-function ArtworkGrid({
-  works,
-  isArabic,
-  reduceMotion,
-}: {
-  works: Artwork[];
-  isArabic: boolean;
-  reduceMotion: boolean | null;
-}) {
-  return (
-    <div className="grid grid-cols-3 gap-x-2 gap-y-4 md:gap-x-7 lg:gap-x-8">
-      {works.map((work, index) => (
-        <ArtworkItem
-          key={work.image}
-          work={work}
-          index={index}
-          isArabic={isArabic}
-          reduceMotion={reduceMotion}
-        />
-      ))}
-    </div>
-  );
-}
-
-function ArtworkItem({
-  work,
-  index,
-  isArabic,
-  reduceMotion,
-}: {
-  work: Artwork;
-  index: number;
-  isArabic: boolean;
-  reduceMotion: boolean | null;
-}) {
-  const label = String(index + 1).padStart(2, "0");
-
-  return (
-    <motion.article
-      className={`group min-w-0 ${index === 1 ? "md:translate-y-5" : ""}`}
-      variants={fadeUp(0.28 + index * 0.09)}
-    >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#e7e0d6]">
-        <motion.div
-          className="absolute inset-0"
-          whileHover={reduceMotion ? undefined : { scale: 1.025 }}
-          transition={{ duration: 0.7, ease: galleryEase }}
-        >
-          <Image
-            src={work.image}
-            alt={isArabic ? work.arTitle : work.enTitle}
-            fill
-            sizes="(max-width: 767px) 33vw, (max-width: 1023px) 31vw, 480px"
-            className="object-cover"
-          />
-        </motion.div>
-
-        <div className="absolute inset-0 bg-black/0 transition-colors duration-700 group-hover:bg-black/[0.07]" />
-      </div>
-
-      <div className="mt-2 flex min-w-0 items-start justify-between gap-2 md:mt-3 md:gap-4">
-        <div className="min-w-0">
-          <h3
-            className={`truncate text-[#343029] transition-colors duration-500 group-hover:text-[#171513] ${
-              isArabic
-                ? "font-[var(--font-arabic-serif)] text-[10px] font-normal md:text-[13px]"
-                : "font-[var(--font-cormorant)] text-[11px] font-normal md:text-[15px]"
-            }`}
+        <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#201d18] md:aspect-[16/10]">
+          <motion.div
+            className="absolute inset-0"
+            whileHover={reduceMotion ? undefined : { scale: 1.014 }}
+            transition={{ duration: 0.9, ease: galleryEase }}
           >
-            {isArabic ? work.arTitle : work.enTitle}
-          </h3>
-
-          <p className="mt-0.5 font-[var(--font-inter)] text-[7px] uppercase tracking-[0.14em] text-black/35 md:mt-1 md:text-[9px] md:tracking-[0.16em]">
-            {label}
-          </p>
+            <Image
+              src={work.image}
+              alt={text(work.title, isArabic)}
+              fill
+              sizes="(max-width: 767px) 100vw, 70vw"
+              className="object-cover"
+              style={{ objectPosition: work.imagePosition }}
+            />
+          </motion.div>
         </div>
 
-        <ArrowUpLeft
-          size={14}
-          strokeWidth={1.3}
-          className="mt-0.5 hidden shrink-0 text-black/35 transition-all duration-500 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:text-black md:block"
-          aria-hidden="true"
-        />
-      </div>
+        {work.detailImage ? (
+          <motion.div
+            className={`mt-4 w-[42%] min-w-[120px] max-w-[220px] md:absolute md:bottom-[-42px] md:mt-0 ${
+              isReversed ? "md:right-8" : "md:left-8"
+            }`}
+            variants={fadeUp(0.3)}
+          >
+            <div className="relative aspect-[3/4] overflow-hidden bg-[#201d18]">
+              <Image
+                src={work.detailImage}
+                alt={`${text(work.title, isArabic)} detail`}
+                fill
+                sizes="(max-width: 767px) 42vw, 220px"
+                className="object-cover"
+                style={{ objectPosition: work.detailPosition }}
+              />
+            </div>
+          </motion.div>
+        ) : null}
+      </motion.div>
     </motion.article>
   );
 }
 
-function CollectionFooter({
+function EditorialLabel({
+  number,
   label,
-  isArabic,
+  variants,
 }: {
+  number: string;
   label: string;
-  isArabic: boolean;
+  variants: Variants;
 }) {
   return (
     <motion.div
-      className={`mt-8 flex items-center gap-4 md:mt-11 ${
-        isArabic ? "justify-start" : "justify-end"
-      }`}
-      variants={fadeUp(0.5)}
+      className="flex items-center gap-3 font-[var(--font-inter)] text-[9px] uppercase tracking-[0.24em] text-[#E8E1D5]/44"
+      variants={variants}
     >
-      <a
-        href="#archive"
-        className="whitespace-nowrap font-[var(--font-inter)] text-[8px] font-medium uppercase tracking-[0.18em] text-black/50 transition-colors duration-300 hover:text-black md:text-[9px] md:tracking-[0.22em]"
-      >
-        {label}
-      </a>
-
-      <span className="h-px w-16 bg-black/28 md:w-32" />
+      <span>{number}</span>
+      <span className="h-px w-8 bg-[#E8E1D5]/22" />
+      <span>{label}</span>
     </motion.div>
   );
+}
+
+function text(value: LocalizedText, isArabic: boolean) {
+  return isArabic ? value.ar : value.en;
 }
 
 function fadeUp(delay: number): Variants {
   return {
     hidden: {
       opacity: 0,
-      y: 24,
+      y: 28,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.75,
+        duration: 0.85,
         delay,
         ease: galleryEase,
       },

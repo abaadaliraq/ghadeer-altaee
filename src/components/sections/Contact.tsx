@@ -1,284 +1,252 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpLeft, ArrowUp } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import {
+  AtSign,
+  Camera,
+  Mail,
+  MessageCircle,
+  Music2,
+  Play,
+} from "lucide-react";
 
 type ContactProps = {
   lang: "ar" | "en";
+  linkBase?: string;
 };
 
-export default function Contact({ lang }: ContactProps) {
+type FooterLink = {
+  label: {
+    ar: string;
+    en: string;
+  };
+  href: string;
+};
+
+type SocialLink = {
+  name: string;
+  href?: string;
+  icon: typeof Camera;
+  external?: boolean;
+};
+
+const footerImage = "/images/footer-.jpg";
+const phoneNumber = "9647715724399";
+
+const navigationLinks: FooterLink[] = [
+  { label: { ar: "الرئيسية", en: "Home" }, href: "#home" },
+  { label: { ar: "عن الفنان", en: "About" }, href: "#about" },
+  { label: { ar: "الأعمال", en: "Works" }, href: "#works" },
+  { label: { ar: "مسارات فنية", en: "Practice" }, href: "#works" },
+  { label: { ar: "المعرض", en: "Gallery" }, href: "#works" },
+  { label: { ar: "التواصل", en: "Contact" }, href: "#contact" },
+];
+
+const legalLinks: FooterLink[] = [
+  { label: { ar: "سياسة الخصوصية", en: "Privacy Policy" }, href: "/privacy" },
+  { label: { ar: "سياسة الاستخدام", en: "Terms of Use" }, href: "/terms" },
+];
+
+const socialLinks: SocialLink[] = [
+  { name: "Instagram", icon: Camera },
+  { name: "Facebook", icon: AtSign },
+  {
+    name: "WhatsApp",
+    href: `https://wa.me/${phoneNumber}`,
+    icon: MessageCircle,
+    external: true,
+  },
+  {
+    name: "TikTok",
+    href: "https://www.tiktok.com/@ghadeer_altaee4?lang=en",
+    icon: Music2,
+    external: true,
+  },
+  { name: "YouTube", icon: Play },
+  { name: "Email", href: "mailto:", icon: Mail },
+];
+
+const revealViewport = { once: true, margin: "-120px" };
+const footerEase = [0.22, 1, 0.36, 1] as const;
+
+export default function Contact({ lang, linkBase = "" }: ContactProps) {
   const isArabic = lang === "ar";
   const reduceMotion = useReducedMotion();
 
   return (
-    <section
+    <footer
       id="contact"
       dir={isArabic ? "rtl" : "ltr"}
-      className="w-full bg-[#f1eee7] text-[#111]"
+      className="relative h-[360px] w-full overflow-hidden bg-[#100f0d] text-[#F1ECE3] sm:h-[400px] md:h-[460px] lg:h-[500px]"
     >
       <motion.div
-        initial={
-          reduceMotion
-            ? false
-            : {
-                opacity: 0,
-                y: 28,
-              }
-        }
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        viewport={{
-          once: true,
-          amount: 0.2,
-        }}
-        transition={{
-          duration: 0.8,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="
-          mx-auto
-          w-full
-          max-w-[1600px]
-          px-5
-          pb-7
-          pt-16
-          md:px-10
-          md:pb-9
-          md:pt-20
-          lg:px-16
-          lg:pt-24
-        "
+        className="absolute inset-0"
+        initial={reduceMotion ? false : { scale: 1.02, opacity: 0.96 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={revealViewport}
+        transition={{ duration: 1, ease: footerEase }}
       >
-        {/* TOP LABEL */}
-        <div className="flex items-center justify-between border-b border-black/15 pb-5">
-          <div className="flex items-center gap-4">
-            <span className="text-[9px] tracking-[0.28em] text-black/35">
-              04
-            </span>
-
-            <span className="h-px w-8 bg-black/25" />
-
-            <span className="text-[9px] uppercase tracking-[0.24em] text-black/45">
-              {isArabic ? "تواصل" : "CONTACT"}
-            </span>
-          </div>
-
-          <a
-            href="#home"
-            aria-label={isArabic ? "العودة للأعلى" : "Back to top"}
-            className="
-              flex
-              h-9
-              w-9
-              items-center
-              justify-center
-              border
-              border-black/20
-              transition-colors
-              duration-300
-              hover:bg-black
-              hover:text-white
-            "
-          >
-            <ArrowUp size={14} strokeWidth={1.4} />
-          </a>
-        </div>
-
-        {/* MAIN */}
-        <div
-          className="
-            grid
-            grid-cols-1
-            gap-10
-            py-12
-            md:grid-cols-[1.3fr_0.7fr]
-            md:items-end
-            md:gap-14
-            md:py-16
-          "
-        >
-          {/* LEFT / MAIN TYPOGRAPHY */}
-          <div>
-            <p
-              className={`
-                mb-4
-                text-black/45
-                ${
-                  isArabic
-                    ? "font-[var(--font-arabic-serif)] text-[14px]"
-                    : "font-[var(--font-cormorant)] text-[17px] italic"
-                }
-              `}
-            >
-              {isArabic
-                ? "للتعاون، المعارض والاستفسارات"
-                : "For collaborations, exhibitions and enquiries"}
-            </p>
-
-            <h2
-              className={`
-                max-w-[1000px]
-                font-normal
-                ${
-                  isArabic
-                    ? "font-[var(--font-arabic-serif)] text-[46px] leading-[1.08] sm:text-[60px] md:text-[78px] lg:text-[94px]"
-                    : "font-[var(--font-cormorant)] text-[58px] leading-[0.82] tracking-[-0.045em] sm:text-[74px] md:text-[96px] lg:text-[118px]"
-                }
-              `}
-            >
-              {isArabic ? (
-                <>
-                  غدير
-                  <span className="block text-black/45">
-                    الطائي
-                  </span>
-                </>
-              ) : (
-                <>
-                  Ghadeer
-                  <span className="block italic text-black/45">
-                    Al-Taee
-                  </span>
-                </>
-              )}
-            </h2>
-          </div>
-
-          {/* CONTACT COPY */}
-          <div className="max-w-[390px]">
-            <p
-              className={`
-                text-black/55
-                ${
-                  isArabic
-                    ? "font-[var(--font-arabic-serif)] text-[14px] leading-[2]"
-                    : "text-[12px] leading-[1.9]"
-                }
-              `}
-            >
-              {isArabic
-                ? "للاستفسار حول الأعمال الفنية، المشاركات، المعارض أو فرص التعاون، يمكن التواصل مباشرة مع الفنان عبر قنواته الرسمية."
-                : "For artwork enquiries, exhibitions, commissions or collaborations, connect with the artist through his official channels."}
-            </p>
-
-            {/* LINKS */}
-            <div className="mt-7 flex flex-col">
-              <a
-                href="https://www.tiktok.com/@ghadeer_altaee4?lang=en"
-                target="_blank"
-                rel="noreferrer"
-                className="
-                  group
-                  flex
-                  items-center
-                  justify-between
-                  border-t
-                  border-black/15
-                  py-4
-                  text-[10px]
-                  uppercase
-                  tracking-[0.2em]
-                  text-black/65
-                  transition-colors
-                  hover:text-black
-                "
-              >
-                <span>TikTok</span>
-
-                <ArrowUpLeft
-                  size={14}
-                  strokeWidth={1.4}
-                  className="
-                    transition-transform
-                    duration-300
-                    group-hover:-translate-x-1
-                    group-hover:-translate-y-1
-                  "
-                />
-              </a>
-
-              {/* 
-                من يرسل الفنان الإيميل، استبدلي # بالإيميل الحقيقي:
-                href="mailto:example@email.com"
-              */}
-              <div
-                className="
-                  flex
-                  items-center
-                  justify-between
-                  border-y
-                  border-black/15
-                  py-4
-                  text-[10px]
-                  uppercase
-                  tracking-[0.2em]
-                  text-black/30
-                "
-              >
-                <span>
-                  {isArabic ? "البريد الإلكتروني" : "EMAIL"}
-                </span>
-
-                <span className="text-[8px]">
-                  {isArabic ? "يضاف لاحقاً" : "TO BE ADDED"}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ARTISTIC LINE */}
-        <div className="relative overflow-hidden border-t border-black/15 py-6">
-          <div
-            className="
-              whitespace-nowrap
-              font-[var(--font-cormorant)]
-              text-[24px]
-              uppercase
-              tracking-[0.14em]
-              text-black/[0.12]
-              sm:text-[32px]
-              md:text-[42px]
-            "
-          >
-            ART — ARCHITECTURE — MEMORY — PLACE — HERITAGE —
-            ART — ARCHITECTURE — MEMORY
-          </div>
-        </div>
-
-        {/* FINAL FOOTER */}
-        <footer
-          className="
-            flex
-            flex-col
-            gap-3
-            border-t
-            border-black/15
-            pt-5
-            text-[8px]
-            uppercase
-            tracking-[0.18em]
-            text-black/35
-            sm:flex-row
-            sm:items-center
-            sm:justify-between
-          "
-        >
-          <span>
-            © {new Date().getFullYear()}{" "}
-            {isArabic ? "غدير الطائي" : "Ghadeer Al-Taee"}
-          </span>
-
-          <span>
-            {isArabic
-              ? "فنان تشكيلي — العراق"
-              : "Visual Artist — Iraq"}
-          </span>
-        </footer>
+        <Image
+          src={footerImage}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-[center_bottom]"
+          priority={false}
+        />
       </motion.div>
-    </section>
+
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(10,9,7,0.18),rgba(10,9,7,0.08)_42%,rgba(10,9,7,0.28)_100%)]" />
+
+      <motion.div
+        className="relative z-10 mx-auto flex h-full w-full max-w-[1500px] flex-col justify-between px-5 py-6 sm:px-6 md:px-10 md:py-8 lg:px-16"
+        initial={reduceMotion ? false : "hidden"}
+        whileInView="visible"
+        viewport={revealViewport}
+      >
+        <div
+          className={`flex items-start gap-8 ${
+            isArabic ? "self-end text-right" : "self-start text-left"
+          }`}
+        >
+          <motion.nav
+            className="space-y-2 md:space-y-2.5"
+            variants={fadeUp(0)}
+            aria-label={isArabic ? "روابط الفوتر" : "Footer navigation"}
+          >
+            {navigationLinks.map((item) => (
+              <FooterNavLink
+                key={item.href + item.label.en}
+                href={`${linkBase}${item.href}`}
+                label={isArabic ? item.label.ar : item.label.en}
+                isArabic={isArabic}
+              />
+            ))}
+          </motion.nav>
+
+          <motion.div
+            className="flex flex-col items-center gap-2 pt-1"
+            variants={fadeUp(0.14)}
+          >
+            {socialLinks.map((item, index) => (
+              <SocialIcon
+                key={item.name}
+                item={item}
+                delay={0.2 + index * 0.06}
+              />
+            ))}
+          </motion.div>
+        </div>
+
+        <motion.div
+          className="flex items-end justify-between gap-5 pb-1"
+          variants={fadeUp(0.32)}
+        >
+          <nav
+            className="space-y-1.5"
+            aria-label={isArabic ? "روابط قانونية" : "Legal links"}
+          >
+            {legalLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={`/${lang}${item.href}`}
+                className="block font-[var(--font-inter)] text-[7px] uppercase tracking-[0.14em] text-[#F1ECE3]/42 transition duration-500 hover:translate-x-1 hover:text-[#F1ECE3]/80"
+              >
+                {isArabic ? item.label.ar : item.label.en}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="text-end font-[var(--font-inter)] text-[7px] uppercase tracking-[0.16em] text-[#F1ECE3]/42">
+            <p>© 2026 Ghadeer Al-Taee</p>
+            <p className="mt-1">{isArabic ? "فنان تشكيلي — بغداد" : "Visual Artist — Baghdad"}</p>
+            <p className="mt-1">Developed by Abaad Aliraq</p>
+          </div>
+        </motion.div>
+      </motion.div>
+    </footer>
   );
+}
+
+function FooterNavLink({
+  href,
+  label,
+  isArabic,
+}: {
+  href: string;
+  label: string;
+  isArabic: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      className={`group block w-fit text-[15px] font-light leading-tight text-[#F1ECE3]/78 transition duration-500 hover:translate-x-1 hover:text-[#F1ECE3] md:text-[18px] ${
+        isArabic ? "font-[var(--font-arabic-serif)]" : "font-[var(--font-cormorant)]"
+      }`}
+    >
+      <motion.span
+        className="block"
+        whileHover={{ x: isArabic ? -5 : 5 }}
+        transition={{ duration: 0.45, ease: footerEase }}
+      >
+        {label}
+      </motion.span>
+      <span className={`mt-1 block h-px w-0 bg-[#F1ECE3]/55 transition-all duration-500 group-hover:w-full ${
+        isArabic ? "mr-auto" : "ml-0"
+      }`} />
+    </a>
+  );
+}
+
+function SocialIcon({ item, delay }: { item: SocialLink; delay: number }) {
+  const Icon = item.icon;
+  const content = (
+    <motion.span
+      className="flex h-8 w-8 items-center justify-center border border-[#F1ECE3]/22 text-[#F1ECE3]/76 transition duration-500 hover:border-[#F1ECE3]/55 hover:text-[#F1ECE3] md:h-9 md:w-9"
+      variants={fadeUp(delay)}
+      whileHover={{ y: -3, scale: 1.06 }}
+      transition={{ duration: 0.45, ease: footerEase }}
+    >
+      <Icon size={17} strokeWidth={1.35} aria-hidden="true" />
+    </motion.span>
+  );
+
+  if (!item.href) {
+    return (
+      <span aria-label={`${item.name} link not set`} className="cursor-default opacity-50">
+        {content}
+      </span>
+    );
+  }
+
+  return (
+    <a
+      href={item.href}
+      target={item.external ? "_blank" : undefined}
+      rel={item.external ? "noopener noreferrer" : undefined}
+      aria-label={item.name}
+    >
+      {content}
+    </a>
+  );
+}
+
+function fadeUp(delay: number): Variants {
+  return {
+    hidden: {
+      opacity: 0,
+      y: 18,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        delay,
+        ease: footerEase,
+      },
+    },
+  };
 }

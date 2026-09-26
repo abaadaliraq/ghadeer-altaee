@@ -5,12 +5,18 @@ import { usePathname } from "next/navigation";
 
 type TopBarProps = {
   lang: "ar" | "en";
+  linkBase?: string;
+  tone?: "light" | "dark";
 };
 
-export default function TopBar({ lang }: TopBarProps) {
+export default function TopBar({ lang, linkBase = "", tone = "light" }: TopBarProps) {
   const pathname = usePathname();
 
   const isArabic = lang === "ar";
+  const isDark = tone === "dark";
+  const textColor = isDark ? "text-[#1C1A16]" : "text-white";
+  const navColor = isDark ? "text-[#1C1A16]/75" : "text-white/85";
+  const langColor = isDark ? "text-[#1C1A16]/80" : "text-white/90";
 
   const navigation = isArabic
     ? [
@@ -43,16 +49,16 @@ export default function TopBar({ lang }: TopBarProps) {
         <div className="z-10 flex w-1/3 justify-start">
           <Link
             href={languagePath || `/${nextLanguage}`}
-            className="
+            className={`
               text-[11px]
               font-medium
               uppercase
               tracking-[0.18em]
-              text-white/90
+              ${langColor}
               transition-opacity
               duration-300
               hover:opacity-55
-            "
+            `}
           >
             {isArabic ? "EN" : "AR"}
           </Link>
@@ -63,18 +69,18 @@ export default function TopBar({ lang }: TopBarProps) {
           {navigation.map((item) => (
             <a
               key={item.label}
-              href={item.href}
-              className="
+              href={`${linkBase}${item.href}`}
+              className={`
                 whitespace-nowrap
                 text-[10px]
                 font-medium
                 uppercase
                 tracking-[0.14em]
-                text-white/85
+                ${navColor}
                 transition-opacity
                 duration-300
                 hover:opacity-50
-              "
+              `}
             >
               {item.label}
             </a>
@@ -85,15 +91,15 @@ export default function TopBar({ lang }: TopBarProps) {
         <div className="z-10 flex w-2/3 justify-end lg:w-1/3">
           <Link
             href={`/${lang}`}
-            className="
+            className={`
               whitespace-nowrap
               text-[15px]
               font-light
               uppercase
               tracking-[0.12em]
-              text-white
+              ${textColor}
               md:text-[18px]
-            "
+            `}
           >
             {isArabic ? "غدير الطائي" : "GHADER AL-TAEE"}
           </Link>

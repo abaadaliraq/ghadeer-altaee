@@ -1,6 +1,5 @@
 import TopBar from "@/components/layout/TopBar";
 import Hero from "@/components/sections/Hero";
-import SelectedWorks from "@/components/sections/SelectedWorks";
 import ArtistIntro from "@/components/sections/ArtistIntro";
 import Contact from "@/components/sections/Contact";
 
@@ -25,7 +24,6 @@ export default async function HomePage({
       <main>
 
         <Hero lang={currentLang} />
-        <SelectedWorks lang={currentLang} />
          <ArtistIntro lang={currentLang} />
            <Contact lang={currentLang} />
 
