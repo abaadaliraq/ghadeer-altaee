@@ -26,15 +26,15 @@ const featuredWorks: FeaturedWork[] = [
   {
     number: "01",
     title: {
-      ar: "حارة اليهود",
-      en: "Jewish Quarter",
+      ar: "شارع التوراه",
+      en: "Torah Street",
     },
     medium: {
       ar: "مجسم فني ثلاثي الأبعاد",
       en: "Three-dimensional art object",
     },
-    image: "/images/works/collection-01/work-02.jpg",
-    detailImage: "/images/works/collection-01/work-01.jpg",
+    image: "/images/works/hara-aluhod.jpg",
+    detailImage: "/images/works/hara-aluhod.jpg",
     imagePosition: "50% 42%",
     detailPosition: "58% 42%",
   },
@@ -210,6 +210,7 @@ function FeaturedWorkSpread({
               alt={text(work.title, isArabic)}
               fill
               sizes="(max-width: 767px) 100vw, 70vw"
+              unoptimized={work.image.includes("hara-aluhod")}
               className="object-cover"
               style={{ objectPosition: work.imagePosition }}
             />
@@ -229,6 +230,7 @@ function FeaturedWorkSpread({
                 alt={`${text(work.title, isArabic)} detail`}
                 fill
                 sizes="(max-width: 767px) 42vw, 220px"
+                unoptimized={work.detailImage.includes("hara-aluhod")}
                 className="object-cover"
                 style={{ objectPosition: work.detailPosition }}
               />

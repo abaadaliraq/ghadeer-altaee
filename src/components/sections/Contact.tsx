@@ -25,14 +25,14 @@ type SocialLink = {
   external?: boolean;
 };
 
-const footerImage = "/images/footer-.jpg";
+const footerImage = "/images/footer.jpg";
 
 const navigationLinks: FooterLink[] = [
   { label: { ar: "الرئيسية", en: "Home" }, href: "#home" },
-  { label: { ar: "عن الفنان", en: "About" }, href: "#about" },
-  { label: { ar: "الأعمال", en: "Works" }, href: "#works" },
-  { label: { ar: "مسارات فنية", en: "Practice" }, href: "#works" },
-  { label: { ar: "المعرض", en: "Gallery" }, href: "#works" },
+  { label: { ar: "عن غدير الطائي", en: "About Ghadeer" }, href: "#about" },
+  { label: { ar: "أعمال غدير الطائي", en: "Ghadeer's Works" }, href: "#works" },
+  { label: { ar: "مسارات غدير الفنية", en: "Artistic Practice" }, href: "#works" },
+  { label: { ar: "معرض ذاكرة بغداد", en: "Memory of Baghdad" }, href: "#works" },
   { label: { ar: "التواصل", en: "Contact" }, href: "#contact" },
 ];
 
@@ -104,10 +104,10 @@ export default function Contact({ lang, linkBase = "" }: ContactProps) {
     <footer
       id="contact"
       dir={isArabic ? "rtl" : "ltr"}
-      className="relative w-full overflow-hidden bg-[#100f0d] text-[#F5F0E8] md:h-[390px] lg:h-[420px] xl:h-[440px]"
+      className="relative h-[360px] w-full overflow-hidden bg-[#100f0d] text-[#F5F0E8] sm:h-[390px] md:h-[410px] lg:h-[440px] xl:h-[460px]"
     >
       <motion.div
-        className="relative w-full md:absolute md:inset-0 md:flex md:items-center md:justify-center"
+        className="absolute inset-0"
         initial={reduceMotion ? false : { opacity: 0.92, scale: 1.015 }}
         whileInView={{ scale: 1, opacity: 1 }}
         viewport={revealViewport}
@@ -115,11 +115,14 @@ export default function Contact({ lang, linkBase = "" }: ContactProps) {
       >
         <Image
           src={footerImage}
-          alt=""
-          width={1672}
-          height={728}
+          alt={
+            isArabic
+              ? "واجهة مستوحاة من العمارة البغدادية في أعمال غدير الطائي"
+              : "Baghdad heritage architecture detail in Ghadeer Al-Taee's work"
+          }
+          fill
           sizes="100vw"
-          className="block h-auto w-full md:h-full md:w-auto md:max-w-none"
+          className="object-cover object-center"
           priority={false}
         />
       </motion.div>
@@ -127,7 +130,7 @@ export default function Contact({ lang, linkBase = "" }: ContactProps) {
       <div className="absolute inset-0 bg-black/35" />
 
       <motion.div
-        className="absolute inset-0 z-10 mx-auto flex w-full max-w-[1500px] flex-col justify-between px-4 py-3 sm:px-6 sm:py-4 md:px-10 md:py-8 lg:px-16"
+        className="absolute inset-0 z-10 mx-auto flex w-full max-w-[1500px] flex-col justify-between px-4 py-5 sm:px-6 sm:py-6 md:px-10 md:py-8 lg:px-16"
         initial={reduceMotion ? false : "hidden"}
         whileInView="visible"
         viewport={revealViewport}
@@ -159,7 +162,7 @@ export default function Contact({ lang, linkBase = "" }: ContactProps) {
           </nav>
 
           <motion.div
-            className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3.5"
+            className="flex flex-wrap items-center justify-center gap-4 md:gap-5"
             variants={fadeUp(0.14)}
           >
             {socialLinks.map((item, index) => (
@@ -243,12 +246,12 @@ function SocialIcon({ item, delay }: { item: SocialLink; delay: number }) {
   const Icon = item.icon;
   const content = (
     <motion.span
-      className="flex h-11 w-11 items-center justify-center border border-white/45 text-[#F5F0E8] transition duration-300 hover:border-white/80 hover:bg-white/[0.08] hover:text-white"
+      className="flex h-8 w-8 items-center justify-center text-[#F5F0E8] transition duration-300 hover:text-white md:h-10 md:w-10"
       variants={fadeUp(delay)}
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.3, ease: footerEase }}
     >
-      <Icon className="h-[21px] w-[21px]" aria-hidden="true" />
+      <Icon className="h-[21px] w-[21px] md:h-[23px] md:w-[23px]" aria-hidden="true" />
     </motion.span>
   );
 

@@ -15,17 +15,47 @@ const sectionCopy = {
     en: "Artist Practice",
   },
   title: {
-    ar: "بوابات إلى عالم غدير",
-    en: "Gateways to Ghadeer's World",
+    ar: "بوابات إلى أعمال غدير الطائي",
+    en: "Gateways to Ghadeer Al-Taee's Work",
   },
   description: {
-    ar: "ستة أبواب تقود إلى الفنان، أسلوبه، طريقته في العمل، وذاكرته البغدادية.",
-    en: "Six gateways into the artist, his language, his way of working and his Baghdadi memory.",
+    ar: "ستة أبواب تقود إلى الفنان غدير الطائي، أسلوبه، طريقته في العمل، وذاكرته البغدادية.",
+    en: "Six gateways into Iraqi visual artist Ghadeer Al-Taee, his language, his way of working and his Baghdadi memory.",
   },
+};
+
+const cardCopy = {
+  explore: { ar: "استكشف القسم", en: "Explore section" },
 };
 
 const revealViewport = { once: true, margin: "-90px" };
 const posterEase = [0.22, 1, 0.36, 1] as const;
+const cardPalettes = [
+  {
+    background: "linear-gradient(145deg, #E7DDC9 0%, #CDBB9D 100%)",
+    border: "rgba(230, 220, 202, 0.28)",
+  },
+  {
+    background: "linear-gradient(145deg, #D8CFB8 0%, #8A8D70 100%)",
+    border: "rgba(213, 204, 181, 0.28)",
+  },
+  {
+    background: "linear-gradient(145deg, #D2C3A5 0%, #718478 100%)",
+    border: "rgba(190, 178, 148, 0.3)",
+  },
+  {
+    background: "linear-gradient(145deg, #EFE8DA 0%, #A89470 100%)",
+    border: "rgba(238, 230, 216, 0.26)",
+  },
+  {
+    background: "linear-gradient(145deg, #C7C3A6 0%, #6D8175 100%)",
+    border: "rgba(190, 196, 168, 0.3)",
+  },
+  {
+    background: "linear-gradient(145deg, #DFD2BC 0%, #6F7A63 100%)",
+    border: "rgba(222, 210, 188, 0.28)",
+  },
+];
 
 export default function ArtistIntro({ lang }: ArtistIntroProps) {
   const locale: Locale = lang;
@@ -80,7 +110,7 @@ export default function ArtistIntro({ lang }: ArtistIntroProps) {
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-2 gap-x-4 gap-y-7 md:grid-cols-3 md:gap-x-7 md:gap-y-9 lg:gap-x-9 lg:gap-y-11"
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-9"
           initial={reduceMotion ? false : "hidden"}
           whileInView="visible"
           viewport={revealViewport}
@@ -112,74 +142,37 @@ function GatewayCard({
   index: number;
 }) {
   const isArabic = locale === "ar";
-  const title = localized(gateway.title, locale);
-  const subtitle = localized(gateway.subtitle, locale);
+  const title = localized(gateway.card.title, locale);
+  const description = localized(gateway.card.description, locale);
   const imageScale = gateway.treatment === "close" ? "scale-[1.11]" : "scale-100";
   const darkTreatment =
     gateway.treatment === "exhibition" ? "contrast-[1.04] brightness-[0.9]" : "";
-  const titleSize =
-    gateway.treatment === "large-title" || gateway.treatment === "exhibition"
-      ? isArabic
-        ? "text-[23px] md:text-[36px]"
-        : "text-[25px] md:text-[39px]"
-      : isArabic
-        ? "text-[19px] md:text-[28px]"
-        : "text-[21px] md:text-[31px]";
-  const typographyShift =
-    gateway.treatment === "type-led" ? "md:grid md:grid-cols-[1fr_auto] md:items-end" : "";
-  const staggerOffset =
-    [
-      "translate-y-0 md:translate-y-0",
-      "translate-y-4 md:translate-y-10",
-      "-translate-y-2 md:translate-y-4",
-      "translate-y-5 md:-translate-y-2",
-      "-translate-y-1 md:translate-y-8",
-      "translate-y-4 md:translate-y-1",
-    ][index % 6] ?? "";
+  const palette = cardPalettes[index % cardPalettes.length];
 
   return (
     <motion.article
-      className={`group min-w-0 ${staggerOffset}`}
+      className="group min-w-0"
       variants={fadeUp(0.08 + index * 0.075)}
-      whileHover={
-        reduceMotion
-          ? undefined
-          : {
-              y: -6,
-            }
-      }
-      transition={{ duration: 0.6, ease: posterEase }}
+      whileHover={reduceMotion ? undefined : { y: -3 }}
+      transition={{ duration: 0.3, ease: posterEase }}
     >
       <Link
         href={`/${locale}/gateways/${gateway.slug}`}
-        className="relative block aspect-[0.72] min-h-[235px] overflow-hidden border border-[#E8E1D5]/20 bg-[#E8E1D5] text-[#141310] shadow-[0_0_0_rgba(0,0,0,0)] transition-[border-color,box-shadow,transform] duration-700 hover:border-[#B69B70]/80 hover:shadow-[0_26px_60px_rgba(0,0,0,0.32)] focus:outline-none focus-visible:border-[#B69B70] sm:min-h-[280px] md:aspect-[0.74] md:min-h-[430px]"
+        className="relative flex h-full flex-col overflow-hidden rounded-[24px] border p-2.5 text-[#141310] transition-shadow duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.24)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B69B70] sm:rounded-[28px] sm:p-3 md:p-4"
+        style={{ background: palette.background, borderColor: palette.border }}
       >
-        <div className="relative h-[72%] overflow-hidden bg-[#d8cdbb]">
+        <div className="relative aspect-[1/0.92] shrink-0 overflow-hidden rounded-[18px] bg-[#d8cdbb] md:rounded-[22px]">
           {gateway.image ? (
             <>
-              <motion.div
-                className="absolute inset-0"
-                whileHover={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        scale: 1.035,
-                        x: gateway.treatment === "process" ? 4 : 0,
-                        y: gateway.treatment === "close" ? -3 : 0,
-                      }
-                }
-                transition={{ duration: 0.6, ease: posterEase }}
-              >
-                <Image
-                  src={gateway.image}
-                  alt={title}
-                  fill
-                  sizes="(max-width: 767px) 50vw, 33vw"
-                  className={`object-cover ${imageScale} ${darkTreatment}`}
-                  style={{ objectPosition: gateway.imagePosition }}
-                />
-              </motion.div>
-              <div className="absolute inset-0 bg-[#11110F]/18 transition-colors duration-700 group-hover:bg-[#11110F]/4" />
+              <Image
+                src={gateway.image}
+                alt={title}
+                fill
+                sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+                className={`object-cover ${imageScale} ${darkTreatment}`}
+                style={{ objectPosition: gateway.imagePosition }}
+              />
+              <div className="absolute inset-0 bg-[#11110F]/18" />
             </>
           ) : (
             <div className="absolute inset-0 bg-[#ddd3c2]" />
@@ -189,38 +182,37 @@ function GatewayCard({
               {localized(gateway.eyebrow, locale)}
             </span>
           ) : null}
-          <div className="absolute inset-x-0 bottom-0 h-px bg-[#B69B70]/0 transition-colors duration-700 group-hover:bg-[#B69B70]/70" />
         </div>
 
-        <div className="relative flex h-[28%] flex-col justify-between px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5">
-          <div className={typographyShift}>
-            <p className="font-[var(--font-inter)] text-[8px] tracking-[0.28em] text-[#141310]/45 md:text-[9px]">
-              {gateway.number}
-            </p>
-
-            <h3
-              className={`mt-1.5 max-w-[94%] font-normal leading-[1.05] text-[#141310] transition-transform duration-[600ms] group-hover:-translate-y-1 ${
-                isArabic ? "font-[var(--font-arabic-serif)]" : "font-[var(--font-cormorant)]"
-              } ${titleSize}`}
-            >
-              {title}
-            </h3>
-            <p
-              className={`mt-0.5 max-w-[94%] overflow-hidden text-[#141310]/76 transition-opacity duration-700 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] group-hover:text-[#141310]/82 md:mt-1.5 md:max-w-[92%] md:overflow-visible md:text-[#141310]/58 md:[display:block] md:[-webkit-line-clamp:unset] md:group-hover:text-[#141310]/72 ${
-                isArabic
-                  ? "font-[var(--font-arabic-serif)] text-[10.5px] font-medium leading-[1.35] md:text-[11px] md:font-normal md:leading-[1.45]"
-                  : "font-[var(--font-inter)] text-[10px] font-medium leading-[1.35] md:text-[10px] md:font-normal md:leading-[1.45]"
-              }`}
-            >
-              {subtitle}
-            </p>
-          </div>
-
-          <div className="flex items-end justify-end">
-            <span className="shrink-0 font-[var(--font-inter)] text-[17px] leading-none text-[#8E6F40] transition-transform duration-[600ms] group-hover:-translate-y-1 group-hover:translate-x-1">
-              ↗
-            </span>
-          </div>
+        <div className="flex flex-1 flex-col items-center px-2 pb-2 pt-4 text-center md:pt-5">
+          <h3
+            className={`w-full text-pretty font-normal text-[#141310] ${
+              isArabic
+                ? "font-[var(--font-arabic-serif)] text-[25px] leading-[1.5] xl:text-[28px]"
+                : "font-[var(--font-cormorant)] text-[27px] leading-[1.2] xl:text-[30px]"
+            }`}
+          >
+            {title}
+          </h3>
+          <p
+            className={`mt-2 w-full text-pretty text-[#141310]/80 ${
+              isArabic
+                ? "font-[var(--font-arabic-serif)] text-[16px] leading-[1.8]"
+                : "font-[var(--font-inter)] text-[13px] leading-[1.7]"
+            }`}
+          >
+            {description}
+          </p>
+          <span
+            className={`mt-auto inline-flex items-center gap-2 pt-4 text-[#141310]/80 ${
+              isArabic
+                ? "font-[var(--font-arabic-serif)] text-[14px] leading-[1.6]"
+                : "font-[var(--font-inter)] text-[12px] leading-[1.6]"
+            }`}
+          >
+            <span>{localized(cardCopy.explore, locale)}</span>
+            <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
+          </span>
         </div>
       </Link>
     </motion.article>

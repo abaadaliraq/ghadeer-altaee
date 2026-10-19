@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getLegalMetadata } from "@/lib/seo";
 
 type LegalPageProps = {
   params: Promise<{
@@ -49,4 +50,11 @@ export default async function TermsPage({ params }: LegalPageProps) {
       </div>
     </main>
   );
+}
+
+export async function generateMetadata({ params }: LegalPageProps) {
+  const { lang } = await params;
+  const locale = lang === "en" ? "en" : "ar";
+
+  return getLegalMetadata(locale, "terms");
 }

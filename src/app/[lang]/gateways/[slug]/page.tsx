@@ -11,6 +11,11 @@ import {
   localized,
   type Locale,
 } from "@/lib/gateways";
+import {
+  getGatewayMetadata,
+  profilePageJsonLd,
+  safeJsonLd,
+} from "@/lib/seo";
 
 type GatewayPageProps = {
   params: Promise<{
@@ -35,6 +40,13 @@ export function generateStaticParams() {
   );
 }
 
+export async function generateMetadata({ params }: GatewayPageProps) {
+  const { lang, slug } = await params;
+  const locale: Locale = lang === "en" ? "en" : "ar";
+
+  return getGatewayMetadata(locale, slug) ?? {};
+}
+
 export default async function GatewayPage({ params }: GatewayPageProps) {
   const { lang, slug } = await params;
   const locale: Locale = lang === "en" ? "en" : "ar";
@@ -48,6 +60,12 @@ export default async function GatewayPage({ params }: GatewayPageProps) {
   if (gateway.slug === "about-ghadeer") {
     return (
       <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: safeJsonLd(profilePageJsonLd(locale)),
+          }}
+        />
         <TopBar lang={locale} linkBase={`/${locale}`} tone="dark" />
         <AboutGhadeerGateway lang={locale} />
       </>
@@ -144,7 +162,11 @@ export default async function GatewayPage({ params }: GatewayPageProps) {
                   <>
                     <Image
                       src={gateway.image}
-                      alt={title}
+                      alt={
+                        isArabic
+                          ? `${title} - بوابة من أعمال غدير الطائي`
+                          : `${title} - gateway in Ghadeer Al-Taee's work`
+                      }
                       fill
                       priority
                       sizes="(max-width: 767px) 100vw, 65vw"

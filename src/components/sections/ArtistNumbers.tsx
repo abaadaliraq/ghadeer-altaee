@@ -46,10 +46,10 @@ export default function ArtistNumbers({ lang }: ArtistNumbersProps) {
     <section
       ref={ref}
       dir={isArabic ? "rtl" : "ltr"}
-      className="w-full bg-[#0D0F0C] px-5 py-10 text-[#F2EFE7] sm:px-7 md:px-10 md:py-12 lg:px-16"
+      className="w-full bg-[#0D0F0C] px-0 py-8 text-[#F2EFE7] sm:px-7 md:px-10 md:py-12 lg:px-16"
     >
       <motion.div
-        className="mx-auto grid min-h-[240px] w-full max-w-[1400px] grid-cols-1 divide-y divide-[#F2EFE7]/14 border-y border-[#F2EFE7]/12 md:min-h-[340px] md:grid-cols-3 md:divide-x md:divide-y-0 md:divide-x-reverse"
+        className="mx-auto grid min-h-[188px] w-full max-w-[1400px] grid-cols-3 divide-x divide-x-reverse divide-[#F2EFE7]/14 border-y border-[#F2EFE7]/12 md:min-h-[340px]"
         initial={reduceMotion ? false : "hidden"}
         animate={inView ? "visible" : "hidden"}
         variants={{
@@ -64,7 +64,7 @@ export default function ArtistNumbers({ lang }: ArtistNumbersProps) {
         {stats.map((stat, index) => (
           <motion.div
             key={stat.value}
-            className="flex min-h-[120px] flex-col items-center justify-center px-4 py-6 text-center md:min-h-0 md:py-8"
+            className="flex min-h-[188px] flex-col items-center justify-center px-2 py-5 text-center md:min-h-0 md:px-4 md:py-8"
             variants={{
               hidden: {
                 opacity: 0,
@@ -81,7 +81,7 @@ export default function ArtistNumbers({ lang }: ArtistNumbersProps) {
               },
             }}
           >
-            <p className="font-[var(--font-cormorant)] text-[54px] font-normal leading-none text-[#F2EFE7] md:text-[76px] lg:text-[88px]">
+            <p className="font-[var(--font-cormorant)] text-[42px] font-normal leading-none text-[#F2EFE7] sm:text-[48px] md:text-[76px] lg:text-[88px]">
               {stat.prefix}
               <CountUp
                 value={stat.value}
@@ -91,10 +91,10 @@ export default function ArtistNumbers({ lang }: ArtistNumbersProps) {
               />
             </p>
             <p
-              className={`mt-4 max-w-[230px] text-[#F2EFE7]/64 ${
+              className={`mt-4 max-w-[96px] text-[#F2EFE7]/64 sm:max-w-[120px] md:mt-4 md:max-w-[230px] ${
                 isArabic
-                  ? "font-[var(--font-arabic-serif)] text-[15px] leading-[1.75] md:text-[17px]"
-                  : "font-[var(--font-inter)] text-[12px] uppercase leading-[1.7] tracking-[0.12em]"
+                  ? "font-[var(--font-arabic-serif)] text-[11px] leading-[1.65] sm:text-[12px] md:text-[17px] md:leading-[1.75]"
+                  : "font-[var(--font-inter)] text-[8px] uppercase leading-[1.55] tracking-[0.08em] md:text-[12px] md:leading-[1.7] md:tracking-[0.12em]"
               }`}
             >
               {stat.label[lang]}

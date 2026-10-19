@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowUpLeft } from "lucide-react";
-import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 type HeroProps = {
   lang: "ar" | "en";
@@ -12,8 +12,6 @@ type HeroProps = {
 export default function Hero({ lang }: HeroProps) {
   const isArabic = lang === "ar";
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-  const imageY = useTransform(scrollYProgress, [0, 0.35], [0, reduceMotion ? 0 : 22]);
 
   return (
     <section
@@ -24,10 +22,9 @@ export default function Hero({ lang }: HeroProps) {
       {/* IMAGE */}
       <motion.div
         className="absolute inset-0"
-        style={{ y: imageY }}
-        initial={reduceMotion ? false : { opacity: 0, scale: 1.04 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
+        initial={reduceMotion ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       >
         <Image
           src="/images/artist/ghadeer.jpg"
@@ -39,7 +36,9 @@ export default function Hero({ lang }: HeroProps) {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          quality={100}
+          unoptimized
+          className="object-cover object-[24%_center] md:object-center"
         />
       </motion.div>
 
@@ -71,13 +70,17 @@ export default function Hero({ lang }: HeroProps) {
         className={`
           absolute bottom-[12%] z-20
           w-full
-          px-6
+          px-5
           md:px-12
           lg:px-16
         `}
       >
         <motion.div
-          className={`max-w-[590px] ${isArabic ? "mr-[7vw] text-right md:mr-[9vw] lg:mr-[11vw]" : "ml-[7vw] text-left md:ml-[9vw] lg:ml-[11vw]"}`}
+          className={`max-w-[340px] md:max-w-[590px] ${
+            isArabic
+              ? "ml-auto mr-0 text-right md:mr-[9vw] lg:mr-[11vw]"
+              : "ml-0 mr-auto text-left md:ml-[9vw] lg:ml-[11vw]"
+          }`}
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
           variants={heroStagger}
@@ -88,7 +91,7 @@ export default function Hero({ lang }: HeroProps) {
               text-white
               ${
                 isArabic
-                  ? "font-[var(--font-arabic-serif)] text-[clamp(44px,7vw,86px)] font-normal leading-[1.12] md:whitespace-nowrap"
+                  ? "font-[var(--font-arabic-serif)] text-[clamp(38px,11vw,86px)] font-normal leading-[1.08] md:whitespace-nowrap"
                   : "font-[var(--font-cormorant)] text-[clamp(56px,8vw,108px)] leading-[0.9] tracking-[-0.035em] md:whitespace-nowrap"
               }
             `}
@@ -100,25 +103,25 @@ export default function Hero({ lang }: HeroProps) {
           {/* DESCRIPTION */}
           <motion.p
             className={`
-              mt-5 max-w-[560px]
+              mt-4 max-w-[560px]
               text-white/78
               ${
                 isArabic
-                  ? "font-[var(--font-arabic-serif)] text-[17px] leading-[1.9] md:text-[18px]"
+                  ? "font-[var(--font-arabic-serif)] text-[15px] leading-[1.85] md:text-[18px]"
                   : "font-[var(--font-inter)] text-[14px] leading-[1.9] md:text-[15px]"
               }
             `}
             variants={heroItem(0.1)}
           >
             {isArabic
-              ? "تجربة فنية تستكشف ذاكرة بغداد وعمارتها وتفاصيلها المتوارثة، وتعيد صياغة أثر المكان في أعمال تُبنى يدوياً بدقة وصبر."
-              : "An artistic practice exploring Iraqi memory, architecture and inherited details — transforming place and history into contemporary visual works."}
+              ? "فنان تشكيلي عراقي تستكشف تجربته ذاكرة بغداد وعمارتها التراثية وتفاصيلها المتوارثة، وتعيد صياغة أثر المكان في أعمال تُبنى يدوياً بدقة وصبر."
+              : "An Iraqi visual artist exploring Baghdad's architectural memory, heritage houses and inherited details, transforming place and history into contemporary visual works."}
           </motion.p>
 
           {/* BUTTONS */}
           <motion.div
             className={`mt-6 flex flex-wrap items-center gap-3 ${
-              isArabic ? "justify-end" : "justify-start"
+              isArabic ? "justify-start" : "justify-start"
             }`}
             variants={heroItem(0.18)}
           >
@@ -128,12 +131,16 @@ export default function Hero({ lang }: HeroProps) {
               className="
                 group
                 inline-flex
-                h-12
+                h-10
+                md:h-12
                 items-center
-                gap-3
+                gap-2
+                md:gap-3
                 bg-white
-                px-6
-                text-[11px]
+                px-4
+                md:px-6
+                text-[10px]
+                md:text-[11px]
                 font-medium
                 tracking-[0.12em]
                 text-black
@@ -160,13 +167,16 @@ export default function Hero({ lang }: HeroProps) {
               href={`/${lang}/gateways/about-ghadeer`}
               className="
                 inline-flex
-                h-12
+                h-10
+                md:h-12
                 items-center
                 border
                 border-white/30
                 bg-white/[0.04]
-                px-6
-                text-[11px]
+                px-4
+                md:px-6
+                text-[10px]
+                md:text-[11px]
                 font-medium
                 tracking-[0.12em]
                 text-white
@@ -177,7 +187,7 @@ export default function Hero({ lang }: HeroProps) {
                 hover:bg-white/10
               "
             >
-              {isArabic ? "عن الفنان" : "ABOUT THE ARTIST"}
+              {isArabic ? "عن غدير الطائي" : "ABOUT GHADEER"}
             </Link>
           </motion.div>
         </motion.div>

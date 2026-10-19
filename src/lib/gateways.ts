@@ -11,6 +11,10 @@ export type Gateway = {
   title: LocalizedText;
   subtitle: LocalizedText;
   intro: LocalizedText;
+  card: {
+    title: LocalizedText;
+    description: LocalizedText;
+  };
   image?: string;
   imagePosition: string;
   treatment?: "standard" | "portrait" | "close" | "large-title" | "process" | "exhibition" | "type-led";
@@ -21,6 +25,16 @@ export const gateways: Gateway[] = [
   {
     number: "01",
     slug: "about-ghadeer",
+    card: {
+      title: {
+        ar: "الفنان غدير الطائي",
+        en: "The Artist Ghadeer Al-Taee",
+      },
+      description: {
+        ar: "تعرّف على الفنان وتجربته ومسيرته الفنية.",
+        en: "Discover the artist, his practice, and his artistic journey.",
+      },
+    },
     title: {
       ar: "عن غدير الطائي",
       en: "About Ghadeer Al-Taee",
@@ -40,6 +54,16 @@ export const gateways: Gateway[] = [
   {
     number: "02",
     slug: "intuitive-artist",
+    card: {
+      title: {
+        ar: "غدير الطائي والفن الفطري",
+        en: "Ghadeer Al-Taee and Intuitive Art",
+      },
+      description: {
+        ar: "مفهوم الفن الفطري وعلاقته بتجربته الفنية.",
+        en: "Explore intuitive art and its connection to his artistic practice.",
+      },
+    },
     title: {
       ar: "الفنان الفطري",
       en: "The Intuitive Artist",
@@ -59,6 +83,16 @@ export const gateways: Gateway[] = [
   {
     number: "03",
     slug: "visual-language",
+    card: {
+      title: {
+        ar: "الأسلوب الفني لغدير الطائي",
+        en: "Ghadeer Al-Taee’s Artistic Style",
+      },
+      description: {
+        ar: "رؤيته الفنية وطريقته في التعبير عن العمارة والتفاصيل البغدادية.",
+        en: "His artistic vision and approach to depicting Baghdad’s architecture and details.",
+      },
+    },
     title: {
       ar: "لغة غدير",
       en: "Ghadeer's Language",
@@ -78,6 +112,16 @@ export const gateways: Gateway[] = [
   {
     number: "04",
     slug: "from-place-to-miniature",
+    card: {
+      title: {
+        ar: "صناعة المجسمات المعمارية",
+        en: "Crafting Architectural Miniatures",
+      },
+      description: {
+        ar: "كيف تتحول تفاصيل المباني التراثية إلى أعمال فنية مصغّرة.",
+        en: "How the details of heritage buildings become miniature works of art.",
+      },
+    },
     title: {
       ar: "من المكان إلى المجسم",
       en: "From Place to Miniature",
@@ -97,9 +141,19 @@ export const gateways: Gateway[] = [
   {
     number: "05",
     slug: "memory-of-baghdad",
+    card: {
+      title: {
+        ar: "معرض «ذاكرة بغداد»",
+        en: "“Memory of Baghdad” Exhibition",
+      },
+      description: {
+        ar: "أعمال غدير الطائي الفنية في بيت التحفيات ببغداد.",
+        en: "Artworks by Ghadeer Al-Taee at Beit Al-Tuhaf in Baghdad.",
+      },
+    },
     title: {
-      ar: "ذاكرة بغداد",
-      en: "Memory of Baghdad",
+      ar: "معرض ذاكرة بغداد",
+      en: "Memory of Baghdad Exhibition",
     },
     subtitle: {
       ar: "معرض غدير الطائي في بيت التحفيات.",
@@ -120,6 +174,16 @@ export const gateways: Gateway[] = [
   {
     number: "06",
     slug: "craft-journey",
+    card: {
+      title: {
+        ar: "المسيرة الفنية والحرفية",
+        en: "A Journey Through Art and Craft",
+      },
+      description: {
+        ar: "محطات من تجربته في الفن والعمارة والعمل الحرفي.",
+        en: "Milestones in his experience across art, architecture, and craftsmanship.",
+      },
+    },
     title: {
       ar: "سيرة من الحرفة",
       en: "A Craft Journey",

@@ -8,6 +8,7 @@ import {
   practices,
   type Locale,
 } from "@/lib/practices";
+import { getPracticeMetadata } from "@/lib/seo";
 
 type PracticePageProps = {
   params: Promise<{
@@ -23,6 +24,13 @@ export function generateStaticParams() {
       slug: practice.slug,
     }))
   );
+}
+
+export async function generateMetadata({ params }: PracticePageProps) {
+  const { lang, slug } = await params;
+  const locale: Locale = lang === "en" ? "en" : "ar";
+
+  return getPracticeMetadata(locale, slug) ?? {};
 }
 
 export default async function PracticePage({ params }: PracticePageProps) {
@@ -88,7 +96,11 @@ export default async function PracticePage({ params }: PracticePageProps) {
               <div className="relative aspect-[4/5] overflow-hidden bg-[#201d18] md:aspect-[16/11]">
                 <Image
                   src={practice.image}
-                  alt={title}
+                  alt={
+                    isArabic
+                      ? `${title} ضمن أعمال غدير الطائي`
+                      : `${title} in Ghadeer Al-Taee's artwork practice`
+                  }
                   fill
                   priority
                   sizes="(max-width: 767px) 100vw, 65vw"
